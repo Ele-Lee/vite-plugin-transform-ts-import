@@ -6,8 +6,8 @@ It may solve the error like "`xxx does not provide an export named 'xxx'`" when 
 
 ```
 <!-- will be transformed like this -->
-// import {YourType} from 'typesFile' old
-import type {TestType} from 'typesFile'; // after transformed
+// import {YourType} from 'typesFile' // ← old
+import type {TestType} from 'typesFile'; // ← after transformed
 
 
 <!-- content in typesFile.ts -->
@@ -86,5 +86,16 @@ exclude: ['monaco-editor', 'commonjsHelpers']
 ### **plugins**
 type: `ParserPlugin[]`
 > the babel plugin (`import { ParserPlugin } from "@babel/parser"`)
+default: []
 
-default: ['typescript', 'jsx', 'classProperties']
+supplement babel plugins to parse your code.
+
+```js
+// parse ts code
+import parser from '@babel/parser';
+const ast = parser.parse(codeStr, {
+  sourceType: 'module',
+  // default setting -> ['typescript', 'jsx', 'classProperties']
+  plugins: ['typescript', 'jsx', 'classProperties'].concat(plugins),
+});
+```

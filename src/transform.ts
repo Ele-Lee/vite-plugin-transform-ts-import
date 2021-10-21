@@ -7,6 +7,7 @@ import t from '@babel/types';
 import generate from '@babel/generator';
 import { findTsInMap, recordTs } from './findTs';
 import { aliasList, plugins } from './utils/var';
+import { ISpecifiersListItem } from './typing';
 
 export function transformFile(filePath, str = '', canRecursive = true) {
   if (!fs.existsSync(filePath)) return '';
@@ -38,7 +39,7 @@ function transformByCodeStr(codeStr, filePath) {
   });
 
   const innerHandlerForTransform = (_path, type = 'import') => {
-    const specifiersList = [];
+    const specifiersList:ISpecifiersListItem[] = [];
     const source = _path.node.source.value as string;
 
     // 判断是一个路径，直接再次进去
@@ -96,7 +97,7 @@ function transformByCodeStr(codeStr, filePath) {
 
 
     const list = specifiersList.map(item2 => {
-      let tmp = null;
+      let tmp: any = null;
       let importStr = '';
 
       if (item2.exportedName) {
@@ -129,9 +130,7 @@ function transformByCodeStr(codeStr, filePath) {
     });
 
     if (list.length) {
-      // _path.remove()
       _path.replaceWithMultiple(list);
-
       _path.skip();
     }
   };

@@ -21,3 +21,13 @@ export interface VitePluginParams {
   plugins?: ParserPlugin[];
   tsInDeps?: TTsVarMap;
 }
+
+export interface ISpecifiersListItem {
+  localName: string;
+  importedName: string | null;
+  exportedName: string | null;
+  path: string;
+  isDefault: boolean;
+  isType?: boolean;
+  isExportByDefault?: boolean;
+}
