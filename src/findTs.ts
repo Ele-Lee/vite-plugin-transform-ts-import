@@ -98,6 +98,9 @@ export function findTsInMap(targetName, targetSourcePath, filePath) {
       )
       .replace('//', '/');
   }
+  if(/\.{1,2}\//.test(sourcesPathInPC)) {
+    sourcesPathInPC = nodePath.resolve(filePath.replace(/\/[\w\d]+.\w+$/,''), sourcesPathInPC)
+  }
   return tsVarMap[targetName].some(tsCache => {
     if (tsCache.path) {
       return tsCache.path.includes(sourcesPathInPC);
